@@ -43,7 +43,6 @@ public class elementaryServiceImpl implements elementaryService{
         String type = "json"; //xml, json
         int pindex = 0; //페이지 위치
         String pSize = "10"; //페이지당 요청 숫자
-        //String key = "78e9f815cc9b48619dccdb4ff4e23a31";
         String ATPT_OFCDC_SC_CODE = "B10"; //시도교육청코드
         //A00 울산광역시
         //B10 서울특별시
