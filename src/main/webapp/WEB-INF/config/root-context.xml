@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:/config/jdbc.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="dataSource" class= "org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <!--<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>-->
+        <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/> <!--log4j sql 로그 설정 -->
+        <!--<property name="url" value="jdbc:oracle:thin:@localhost:1521:XE"/>-->
+        <property name="url" value="jdbc:log4jdbc:oracle:thin:@localhost:1521:XE"/> <!--log4j sql 로그 설정 -->
+        <property name="username" value="${jdbc.name}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"></property>
+        <property value="classpath:mybatis-config.xml" name="configLocation" />
+        <property name="mapperLocations" >
+            <list>
+                <value>classpath:/mapper/elementaryMapper.xml</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="mapper"></property>
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactory"/>
+    </bean>
+</beans>
